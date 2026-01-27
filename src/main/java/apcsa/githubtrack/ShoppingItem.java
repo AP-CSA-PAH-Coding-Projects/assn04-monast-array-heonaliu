@@ -5,14 +5,14 @@ public class ShoppingItem
 {
     //attributes
     private String name;
-    private double price;
+    private int price;
     private boolean sold;
 
     // constructor to initialize my object
-    public ShoppingItem(String initName, double initPrice)
+    public ShoppingItem(String initName, int initPrice)
     {
         name = initName;
-        price = initPrice;
+        price = initPrice*100; // stores price in pennies, therefore multiply by 100
         sold = false; //automatically sets sold to false
     }
 
@@ -65,11 +65,11 @@ public class ShoppingItem
     {
         return name;
     }
-    public double getPrice()
+    public int getPrice()
     {
-        return price/100;
+        return price;
     }
-    public bool getSold()
+    public boolean getSold()
     {
         return sold;
     }
