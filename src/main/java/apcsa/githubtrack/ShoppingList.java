@@ -188,7 +188,6 @@ public class ShoppingList implements MyList {
             return false;
         }
         
-        
         for (int i = 0; i < other.getSize(); i++)
         {
             //reset found variable for each item
