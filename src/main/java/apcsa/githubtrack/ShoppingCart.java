@@ -53,7 +53,7 @@ public class ShoppingCart
                 count++;
             }
         }
-        //if size of the list and number of items sold match,
+        //if size of the list and number of items sold match, must be all completed
         if (list.getSize() == count)
         {
             return true;

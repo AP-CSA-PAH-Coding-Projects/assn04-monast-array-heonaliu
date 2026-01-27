@@ -148,9 +148,10 @@ public class ShoppingList implements MyList {
 
     public void goShopping(ShoppingList toBuy)
     {
+        //for each item of toBuy
         for (int i = 0; i<toBuy.getSize(); i++)
         {
-            //checks a specific item at each index of i
+            //checks a specific item at each index of i of toBuy
             ShoppingItem otherItem = toBuy.getAt(i);
             for (int j = 0; j<toBuy.getSize();j++)
             {
@@ -164,9 +165,11 @@ public class ShoppingList implements MyList {
         }
     }
 
+    //gets total price
     public double getTotalPrice()
     {
         double price = 0.0;
+        //for each loop that checks !null and adds to the price and returns the sum
         for (ShoppingItem s: storage)
         {
 
@@ -211,6 +214,7 @@ public class ShoppingList implements MyList {
         return true;
     }
 
+    //Getters
     public int getCapacity()
         {
             return capacity;
