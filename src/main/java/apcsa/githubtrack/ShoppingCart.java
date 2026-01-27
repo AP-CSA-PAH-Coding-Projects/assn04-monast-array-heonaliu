@@ -48,7 +48,7 @@ public class ShoppingCart
         for (int i = 0; i<list.getSize(); i++)
         {
             //gets the item at index i and checks if the item is sold
-            if (list.getAt(i).getSold() == true)
+            if (list.getAt(i).isSold() == true)
             {
                 count++;
             }
@@ -82,7 +82,7 @@ public class ShoppingCart
     {
         return missionComp;
     }
-    public int getNumShopCarts()
+    public static int getTotalCartsReturned()
     {
         return numShopCarts;
     }

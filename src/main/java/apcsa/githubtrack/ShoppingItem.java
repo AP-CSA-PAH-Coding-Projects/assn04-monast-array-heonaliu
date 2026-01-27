@@ -12,7 +12,7 @@ public class ShoppingItem
     public ShoppingItem(String initName, int initPrice)
     {
         name = initName;
-        price = initPrice*100; // stores price in pennies, therefore multiply by 100
+        price = initPrice; // stores price in pennies, therefore multiply by 100
         sold = false; //automatically sets sold to false
     }
 
@@ -69,7 +69,7 @@ public class ShoppingItem
     {
         return price;
     }
-    public boolean getSold()
+    public boolean isSold()
     {
         return sold;
     }

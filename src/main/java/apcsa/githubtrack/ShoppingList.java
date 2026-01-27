@@ -164,7 +164,7 @@ public class ShoppingList implements MyList {
         }
     }
 
-    public double totalPrice()
+    public double getTotalPrice()
     {
         double price = 0.0;
         for (ShoppingItem s: storage)
