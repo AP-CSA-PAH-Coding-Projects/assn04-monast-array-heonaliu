@@ -153,13 +153,14 @@ public class ShoppingList implements MyList {
         {
             //checks a specific item at each index of i of toBuy
             ShoppingItem otherItem = toBuy.getAt(i);
-            for (int j = 0; j<toBuy.getSize();j++)
+            for (int j = 0; j<storage.length;j++)
             {
                 //checks each index of storage if it's equal to the item from toBuy
                 // if yes, set it as bought
-                if (storage[j].equals(otherItem))
+                if (storage[j]!= null && storage[j].equals(otherItem))
                 {
                     storage[j].buy();
+                    break;
                 }
             }
         }
