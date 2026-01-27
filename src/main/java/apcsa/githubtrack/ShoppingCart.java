@@ -56,6 +56,7 @@ public class ShoppingCart
         //if size of the list and number of items sold match, must be all completed
         if (list.getSize() == count)
         {
+            missionComp = true;
             return true;
         } else {
             return false;
@@ -64,11 +65,10 @@ public class ShoppingCart
 
     public void returnCart()
     {
-        //checks if everything is bought OR mission hasn't been completed yet
-        if (isCompleted() || missionComp == false)
+        //checks if everything is bought
+        if (isCompleted()) //removed a redundant part
         {
             //completes mission AND adds to total returned carts
-            missionComp = true;
             numShopCarts++;
         }
     }
