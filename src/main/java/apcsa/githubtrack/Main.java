@@ -74,7 +74,7 @@ public class Main
             isCompleted = "is";
         }
         
-        System.out.println("DormRun's cart contains: eggs, zucchini, frozen berries for a total of $" + dormRun.getTotalPrice() + " It " + dormRunCart.isCompleted() + " completed.");
+        System.out.println("DormRun's cart contains: eggs, zucchini, frozen berries for a total of $" + dormRun.getTotalPrice()/100 + " It " + isCompleted + " completed.");
 
         
 

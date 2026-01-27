@@ -64,8 +64,8 @@ public class ShoppingCart
 
     public void returnCart()
     {
-        //checks if everything is bought AND mission hasn't been completed yet
-        if (isCompleted() && missionComp == false)
+        //checks if everything is bought OR mission hasn't been completed yet
+        if (isCompleted() || missionComp == false)
         {
             //completes mission AND adds to total returned carts
             missionComp = true;
