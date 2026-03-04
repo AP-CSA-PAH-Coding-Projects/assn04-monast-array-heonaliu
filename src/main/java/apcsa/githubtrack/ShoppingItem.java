@@ -1,76 +1,97 @@
 package apcsa.githubtrack;
 
-
 // Implement your ShoppingItem class here
-
-public class ShoppingItem{
-
-private String name;
-private int price; // in pennies
-private boolean sold;
-
-public ShoppingItem(String name, int price)  // constructor that sets up name and price, and sets sold to false by default
+public class ShoppingItem
 {
-    this.name = name;
-    this.price = price;
-    this.sold = false;
-}
+    //attributes
+    private String name;
+    private int price;
+    private boolean sold;
 
-public void buy()   // this method marks the item as sold
-{
-    sold = true; // sets sold to true
-}
-
-public boolean equals(ShoppingItem other)      // this method returns true if the item's name and price are equal
-{
-    if(this.name.equals(other.name) && this.price == other.price) // checks if name and price are equal
+    // constructor to initialize my object
+    public ShoppingItem(String initName, int initPrice)
     {
-        return true; // returns true if both are equal
+        name = initName;
+        price = initPrice; // stores price in pennies, therefore multiply by 100
+        sold = false; //automatically sets sold to false
     }
-    else
-    {
-        return false; // returns false if both are not equal
-    }
-}
 
-public int compareTo(ShoppingItem item)    // compares two items if they have the same name, returning positive if the item costs more, negative if it costs less, and zero if the price is the same. Prints an error message if they have different names.
-{
-    if(this.name.equals(item.name)) // same name
+    // sets sold to buy when bought
+    public void buy()
     {
-        if(this.price > item.price) // this item costs more
+        this.sold = true;
+    }
+
+    // checks if name of object equals the other item using getName() getter to access the name attribute && checks the price with the getPrice() method
+    public boolean equals(ShoppingItem other)
+    {
+        if (name.equals(other.getName()) && (double)price/100 == other.getPrice())
         {
-            return this.price - item.price;
+            System.out.println("Items with same name and price should be equal");
+            return true;
         }
-        else if(this.price < item.price) // this item costs less
-        {
-            return this.price - item.price;
+        else {
+            if (name.equals(other.getName()))
+            {
+                System.out.println("Items with same name but different price should not be equal");
+                return false;
+            }
+
+            return false;
         }
-        else // prices are equal
+    }
+
+    //made my own helper function to compare the names of two items
+    public boolean nameEquals(String s)
+    {
+        if (name.equals(s))
+            {
+                return true;
+            }
+            else {
+                return false;
+            }
+
+    }
+
+    // compares my item price to the same kind of item
+    public double compareTo(ShoppingItem other)
+    {
+        //checks if names are equal
+        if (nameEquals(other.getName()))
         {
+            double myPrice = (double) price / 100.0;
+            //if prices aren't equal, then return the difference
+           if (myPrice==other.getPrice())
+            {
+                return 0;
+            } 
+            else{
+                // should return a positive or negative number depending on how expensive
+                return myPrice - other.getPrice();
+            }
+        }
+        else {
+            // if not names equal, prints an error message
+            System.out.println("Error: Different items!");
             return 0;
         }
     }
-    else // different names
+
+    //The getters to access attributes outside of the class
+    public String getName()
     {
-        System.out.println("Error: Different items!");
-        return 0;
+        return name;
     }
-}
+    public double getPrice()
+    {
+        return price/100.0;
+    }
+    public boolean isSold()
+    {
+        return sold;
+    }
 
-public boolean isSold()   // returns whether the item has been sold
-{
-    return sold; // returns the boolean variable sold
-}
 
-public String getName()  // returns the name of the item
-{
-    return name; // returns the variable name
-}
-
-public double getPrice()  // returns the price of the item in dollars
-{
-    double priceInDollars = (double)price / 100; // converts price from pennies to dollars
-    return priceInDollars; // returns price in dollars
-}
 
 }

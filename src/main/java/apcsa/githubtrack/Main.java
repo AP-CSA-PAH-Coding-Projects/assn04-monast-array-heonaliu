@@ -1,51 +1,82 @@
 package apcsa.githubtrack;
 
 // Implement your Main class (with the main method) here
-public class Main {
-    public static void main(String[] args) { // main method
 
-        ShoppingList breakfastEssentials = new ShoppingList(); // creates new ShoppingList object
-        breakfastEssentials.addToEnd(new ShoppingItem("Eggs", 350)); // adds item to end of list
-        ShoppingItem Zucchini = new ShoppingItem("Zucchini", 275); // creates new ShoppingItem object
-        breakfastEssentials.insertAt(1, Zucchini); // inserts Zucchini at index 1
-        ShoppingItem FrozenBerries = new ShoppingItem("Frozen Berries", 515); // creates new ShoppingItem object
-        breakfastEssentials.insertAt(2, FrozenBerries); // inserts FrozenBerries at index 2
-        ShoppingItem SmokedSalmon = new ShoppingItem("Smoked Salmon", 999); // creates new ShoppingItem object
-        breakfastEssentials.addToEnd(SmokedSalmon); // adds SmokedSalmon to end of list
-        ShoppingItem Bacon = new ShoppingItem("Bacon", 450); // creates new ShoppingItem object (testing remove feature)
-        breakfastEssentials.insertAt(1, Bacon); // inserts Bacon at index 1
-        breakfastEssentials.removeAt(1); // removes item at index 1
-        ShoppingCart breakfastCart = new ShoppingCart("Micah", breakfastEssentials); // creates new ShoppingCart object
+public class Main
+{
+    public static void main(String[] args) {
+        //initialize breakfastEssential Items
+        ShoppingList breakfastEssentials = new ShoppingList();
+        //test addToEnd here ---
+        breakfastEssentials.addToEnd(new ShoppingItem("Eggs", 350 ));
+        breakfastEssentials.addToEnd(new ShoppingItem("Zucchini", 275 ));
+        breakfastEssentials.addToEnd(new ShoppingItem("Frozen Berries", 515 ));
+        breakfastEssentials.addToEnd(new ShoppingItem("Smoked Salmon", 999 ));
+        ShoppingCart bEssentialCart = new ShoppingCart("Heona", breakfastEssentials);
 
-        ShoppingList dormRun = new ShoppingList(); // creates new ShoppingList object
-        ShoppingItem Eggs = new ShoppingItem("Eggs", 350); // creates new ShoppingItem object
-        dormRun.addToEnd(Eggs); // adds eggs to end of list
-        ShoppingItem Tissues = new ShoppingItem("Tissues", 100); // creates new ShoppingItem object
-        dormRun.addToEnd(Tissues); // adds tissues to end of list
-        dormRun.addToEnd(Zucchini); // adds zucchini to end of list
-        dormRun.addToEnd(FrozenBerries); // adds frozen berries to end of list
-        dormRun.addToEnd(SmokedSalmon); // adds smoked salmon to end of list
-        ShoppingCart dormCart = new ShoppingCart("Emilia", dormRun); // creates new ShoppingCart object
+        //initialize dormRun Items
+        ShoppingList dormRun = new ShoppingList();
+        //test insertAt
+        dormRun.insertAt(0, new ShoppingItem("Eggs", 350));
+        dormRun.addToEnd(new ShoppingItem("Tissues", 100));
+        dormRun.addToEnd(new ShoppingItem("Frozen Berries", 515));
+        dormRun.insertAt(3, new ShoppingItem("Zucchini", 275));
+        //test removeAt
+        dormRun.addToEnd(new ShoppingItem("Yogurt", 450));
+        dormRun.removeAt(4);
+        dormRun.insertAt(4, new ShoppingItem("Smoked Salmon", 999));
+        ShoppingCart dormRunCart = new ShoppingCart("Heona", dormRun);
 
-        System.out.println(breakfastEssentials.isIdentical(dormRun)); // checks if breakfastEssentials and dormRun are identical and prints out the result
+        //checks if identical lists
+        if (breakfastEssentials.isIdentical(dormRun))
+        {
+            System.out.println("Breakfast Essentials List is the same as DormRun!");
+        } else {
+            System.out.println("Breakfast Essentials List is NOT the same as Dorm Run!");
+        }
 
-        dormRun.removeAt(1); // removes tissues from dormRun
-        dormRun.removeAt(4); // removes smoked salmon from dormRun
-        dormRun.getAt(0).buy(); // buys eggs
-        dormRun.getAt(4).buy(); // buys smoked salmon (which has been removed)
-        System.out.println(dormCart.isCompleted()); // checks if dormCart is completed and prints out the result
-        breakfastEssentials.goShopping(); // buys all items in breakfastEssentials
-        System.out.println(breakfastCart.isCompleted()); // checks if breakfastCart is completed and prints out the result
-        System.out.println(ShoppingCart.getTotalCartsReturned()); // prints total carts returned
-        breakfastCart.returnCart(); // returns breakfastCart
-        dormCart.returnCart(); // returns dormCart
-        System.out.println(ShoppingCart.getTotalCartsReturned()); // prints total carts returned
+        dormRun.removeAt(1); // remove tissues
+        dormRun.removeAt(4); // remove salmon
+        dormRun.getAt(0).buy(); // buy eggs
+        dormRun.getAt(4).buy(); // tries to buy salmon that we removed
+        //checks isCompleted
+        if (dormRunCart.isCompleted())
+        {
+            System.out.println("Dorm Cart is Complete");
+        } else {
+            System.err.println("Dorm is NOT Complete");
+        }
 
-        System.out.println(breakfastEssentials.getAt(1).compareTo(dormRun.getAt(3))); // compares the first item in breakfastEssentials to the third item in dormRun and prints out the result
+        //buys all items under breakfast essentials
+        breakfastEssentials.goShopping();
+        if (bEssentialCart.isCompleted())
+        {
+            System.out.println("Breakfast Essential Cart is Complete");
+        } else {
+            System.err.println("Breakfast Essential Cart is NOT Complete");
+        }
 
-        // prints a summary:
-        System.out.println("breakfastCart contains: Eggs, Zucchini, Frozen Berries, Smoked Salmon for a total of $" + breakfastEssentials.getTotalPrice());
-        System.out.println("dormCart contains: Eggs, Tissues, Zucchini, Frozen Berries, Smoked Salmon for a total of $" + dormRun.getTotalPrice());
+        //gets Total number of Carts
+        System.out.println(ShoppingCart.getTotalCartsReturned());
+        //returns both carts
+        bEssentialCart.returnCart();
+        dormRunCart.returnCart();
+        System.out.println(ShoppingCart.getTotalCartsReturned());
+
+        //COMPARE
+        System.out.println(breakfastEssentials.getAt(0).compareTo(dormRun.getAt(2)));
+
+        //FINAL summary output
+        boolean comp = dormRunCart.isCompleted();
+        String isCompleted = "is not";
+        if  (comp)
+        {
+            isCompleted = "is";
+        }
+        
+        System.out.println("DormRun's cart contains: eggs, zucchini, frozen berries for a total of $" + dormRun.getTotalPrice() + " It " + isCompleted + " completed.");
+
+        
 
     }
 }

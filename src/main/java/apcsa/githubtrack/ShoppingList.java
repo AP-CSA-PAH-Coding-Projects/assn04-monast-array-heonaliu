@@ -3,179 +3,227 @@ package apcsa.githubtrack;
 // Implement the ShoppingList class here
 
 public class ShoppingList implements MyList {
-    
-    private ShoppingItem[] items; // storage
-    private int size; // current size
-    private int capacity; // current maximum capacity
+    //instance variables
+    private int capacity;
+    private int size;
+    private ShoppingItem[] storage;
 
-    public ShoppingList() // capacity initialized to 8, storage starts with size 8, size starts at 0
-    {   
-        capacity = 10;
-        items = new ShoppingItem[capacity];
+    public ShoppingList()
+    {
+        capacity = 8;
         size = 0;
+        storage = new ShoppingItem[capacity];
     }
 
-    public void addToEnd(Object item) // this method adds item to end of list (debug console said to use Object type for parameter)
+    // public ShoppingList(int initCapacity, int initSize)
+    // {
+    //     capacity = 8;
+    //     size = 0;
+    //     storage = new ShoppingItem[capacity];
+    // }
+
+    public void addToEnd(Object s) //err msg requires this be an Object
     {
-        ShoppingItem shoppingItem = (ShoppingItem) item; // casts Object to ShoppingItem (Debug console said this will fix error message)
-        if(size == capacity)
+        ShoppingItem item = (ShoppingItem)s; //casting to Shopping Item
+        //checks if full
+        if (size == capacity)
         {
-            makeCapacity(capacity * 2); // doubles capacity if size equals capacity
+            //then double capacity space using makeCapacity() method
+            makeCapacity(capacity*2);
         }
-        items[size] = shoppingItem; // adds shoppingItem to end of the list
-        size++; // increases size by 1
+        //appends storage to size (index of item in the list)
+        storage[size] = item;
+        size++; //adding a new item
     }
 
-    public void insertAt(int index, Object item) // this method inserts item at index, and again, debug console said to use Object as a parameter
+    public void insertAt(int index, Object item)
     {
-        if(index < 0 || index > size) // checks if index is in bounds
+        ShoppingItem newI = (ShoppingItem)item; //casting to Shopping Item
+        //checks for invalid indexes
+        if (index<0 || index > size)
         {
             System.out.println("Invalid index!");
-        }
-        else
-        {
-            ShoppingItem shoppingItem = (ShoppingItem) item; // casts Object to ShoppingItem (Again, debug console said this will fix error message)
-            if(size == capacity)
+        } else {
+            if (size == capacity)
             {
-                makeCapacity(capacity * 2); // doubles capacity if size equals capacity
+                makeCapacity(capacity*2);
             }
-            for(int i = size; i > index; i--) // shifts elements to the right to make space for item, starting from the end of the list
+            //starting from the last item all the way to index, shifts 1 space to the right
+            for (int i = size; i>index; i--)
             {
-                items[i] = items[i - 1];
+                storage[i] = storage[i-1];
             }
-            items[index] = shoppingItem; // inserts shoppingItem at index
-            size++; // increases size by 1
+            storage[index] = newI; // inserts new item at specified index
+            size++; // increment size since a new item is added
         }
     }
 
-    public void removeAt(int index) // method removes item at index
+    public void removeAt(int index)
     {
-        if(index < 0 || index > size) // checks if index is in bounds
+        //checks for invalid indexes
+        if (index<0 || index > size)
         {
             System.out.println("Invalid index!");
-        }
-        else
-        {
-            for(int i = index; i < size - 1; i++) // shifts elements to the left to fill the gap left by the removed item
+        } else {
+            //reverse the insertAt method (start at index) each value is the value to it's right
+            for (int i = index; i < size-1; i++)
             {
-                items[i] = items[i + 1];
+                storage[i] = storage[i+1];
             }
-            size--; // decreases size by 1
+            size--; //removing one item    
         }
     }
 
-    public ShoppingItem getAt(int index) // method returns ShoppingItem object at index
+    public ShoppingItem getAt(int index)
     {
-        if(index < 0 || index > size || items[index] == null) // checks if index is in bounds
+       //checks for invalid indexes or also if index has no item
+        if (index<0 || index > size || storage[index] == null)
         {
             System.out.println("Invalid index!");
-            ShoppingItem invalid = new ShoppingItem("Invalid index!", 0); // creates dummy ShoppingItem to return
-            return invalid; // returns dummy ShoppingItem
-        }
-        else
-        {
-            return items[index]; // returns item at index
+            //must return ShoppingItem so if invalid, return an invalid item
+            ShoppingItem inv = new ShoppingItem("Invalid", 0);
+            return inv;
+        } else {
+            //if exists, returns item at index
+            return storage[index];
         }
     }
 
-    public int getSize() // method returns size instance variable
+    //returns size attribute
+    public int getSize()
     {
-        return size; // returns the current size of the list (number of stored items)
+        return size;
     }
+
+    // Capacity Management
 
     public void makeCapacity(int minCapacity)
     {
-        if(minCapacity > size && minCapacity != capacity) // only makes changes if minCapacity is greater than size and different from current capacity
+        // if (!(mincapacity <= size || minCapacity==capacity)) 
+        if (minCapacity > size && minCapacity != capacity)
         {
-            if(minCapacity < 8) // if minCapacity is less than 8, it gets set to 8
+            // if mincap is less than 8, set it to 8, else set it to the min capacity
+            if (minCapacity < 8)
             {
-                minCapacity = 8;
+                capacity = 8;
+            } else {
+                capacity = minCapacity;
             }
-            ShoppingItem[] newItems = new ShoppingItem[minCapacity]; // new array with size minCapacity
-            for(int i = 0; i < size; i++) // copies elements from old array to new array
+
+            //creates a new array with the new capacity
+            ShoppingItem[] newStorage = new ShoppingItem[minCapacity];
+
+            //copies every item from old array to new array
+            for (int i = 0; i<size; i++)
             {
-                newItems[i] = items[i];
+                newStorage[i] = storage[i];
             }
-            this.items = newItems; // sets the array items to newItems
-            this.capacity = minCapacity; // adjusts capacity variable (size does not change because we added capacity and not items)
+            //adjust item's attributes to the new values for new storage list and new capacity
+            storage = newStorage;
+            capacity = minCapacity;
         }
     }
 
-    public void trimExcess() // this uses makeCapacity to set the capacity to size
+    // removes any null items in storage
+    public void trimExcess()
     {
+        //if array length not already = size, then call makeCapacity to create a new array with the capacity of 'size' attribute
+        if (storage.length != size)
+        {
+            makeCapacity(size);
+        }
+    }
+
+    public void goShopping()
+    {
+        for (ShoppingItem s: storage)
+        {
+            if (s!=null)
+            {
+                //sets every item to become "bought"
+                s.buy();
+            }
+        }
+    }
+
+    public void goShopping(ShoppingList toBuy)
+    {
+        //for each item of toBuy
+        for (int i = 0; i<toBuy.getSize(); i++)
+        {
+            //checks a specific item at each index of i of toBuy
+            ShoppingItem otherItem = toBuy.getAt(i);
+            for (int j = 0; j<storage.length;j++)
+            {
+                //checks each index of storage if it's equal to the item from toBuy
+                // if yes, set it as bought
+                if (storage[j]!= null && storage[j].equals(otherItem))
+                {
+                    storage[j].buy();
+                    break;
+                }
+            }
+        }
+    }
+
+    //gets total price
+    public double getTotalPrice()
+    {
+        double price = 0.0;
+        //for each loop that checks !null and adds to the price and returns the sum
+        for (ShoppingItem s: storage)
+        {
+
+            if (s != null)
+            {
+                price += s.getPrice();
+            }
+
+        }
+        return price;
+    }
+
+    public boolean isIdentical(ShoppingList other)
+    {
+        boolean found = false;
+        //checks size, if not equal, automatically return false without checking anything else
+        if (other.getSize() != size)
+        {
+            return false;
+        }
         
-        makeCapacity(size);
-    }
-
-    public void goShopping() // method buys all items in list
-    {
-        for(int i = 0; i < size; i++) // loops through array
+        for (int i = 0; i < other.getSize(); i++)
         {
-            if (items[i] != null) // checks to make sure element isn't null
+            //reset found variable for each item
+            found = false;
+            ShoppingItem currItem = other.getAt(i);
+            for (int j = 0; j<size; j++)
             {
-                items[i].buy(); // buys items
-            }
-        }
-    }
-
-    public void goShopping(ShoppingList toBuy) // method buys all items in toBuy list that are also in this list
-    {
-        for(int i = 0; i < toBuy.getSize(); i++) // loops through full toBuy list
-        {
-            ShoppingItem itemToBuy = toBuy.getAt(i); // gets every item in toBuy
-            for(int j = 0; j < size; j++) // loops through "items" array
-            {
-                if(items[j].equals(itemToBuy)) // checks that the item in items list equals the item in toBuy
+                //for each item in storage, check if currItem exists (if there is at least one instance, found will be set to true)
+                if (storage[j].equals(currItem))
                 {
-                    items[j].buy(); // buys the item if they're equal
+                    found = true;
                 }
             }
-        }
-    }
-
-    public double getTotalPrice() // method returns total price of all items in list
-    {
-        double total = 0.0; // counter variable
-        for(int i = 0; i < size; i++) // loops through array
-        {
-            if (items[i] != null) // checks if element is null
+            //if there is one item not found, we can immediately break the loop by returning false
+            if (!found)
             {
-                total += items[i].getPrice(); // adds price of each item to total
+                return false;
             }
         }
-        return total; // returns total price
+        // if all found, we can return true
+        return true;
     }
 
-    public int getCapacity() // method returns capacity instance variable
+    //Getters
+    public int getCapacity()
+        {
+            return capacity;
+        }
+    public ShoppingItem[] getStorage()
     {
-        return capacity; // returns current capacity of the list
+        return storage;
     }
 
-    public boolean isIdentical(ShoppingList other) // method checks if two ShoppingLists are identical
-    {
-       boolean found = false; // boolean variable to track if item is found in other list
-        if(this.size != other.size) // checks if sizes are different
-        {
-            return false; // returns false
-        }
-        else
-        {
-            for(int i = 0; i < size; i++) // loops through array for each item
-            {
-                for(int j = 0; j < other.size; j++) // loops through complete other array for each item first array
-                {
-                    if(this.items[i].equals(other.items[j])) // checks if items are equal
-                    {
-                        found = true; // sets found to true if item is found
-                    }
-                }
-                if(found == false) // if item was not found in other list
-                {
-                    return false; // returns false
-                }
-            }
-            return true; // returns true if all items are equal
-        }
-    }
 
 }

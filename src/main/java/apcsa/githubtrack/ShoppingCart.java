@@ -1,59 +1,89 @@
 package apcsa.githubtrack;
 
 // Implement your ShoppingCart class here
-public class ShoppingCart {
-    private ShoppingList list; // storage for shopping list
-    private String name; // customer name
-    private boolean complete; // whether or not the mission is complete
-    private boolean isReturned; // whether or not the cart can be returned
-    private static int returned = 0; // static variable to keep track of total carts returned
+public class ShoppingCart
+{
+    private ShoppingList list;
+    private String name;
+    private boolean missionComp;
+    private static int numShopCarts; // variable part of the class, not a specific instance
 
-    public ShoppingCart(String name, ShoppingList list) // constructor
+    //CONSTRUCTORS ===========
+    //constructor if provide a name and list
+    public ShoppingCart(String initName, ShoppingList initList)
     {
-        this.name = name; // sets customer name
-        this.list = list; // sets shopping list
-        this.complete = false; // sets complete to false by default
-        this.isReturned = false; // sets isReturned to false by default
+        name = initName;
+        list = initList;
+        missionComp = false;
     }
 
-    public ShoppingCart(String name) // constructor with no ShoppingList
+    //only provides a list
+    public ShoppingCart(ShoppingList initList)
     {
-        this.name = name; // sets customer name
-        this.list = new ShoppingList(); // initializes list to an empty shopping list
-        this.complete = false; // complete set to false by default
-        this.isReturned = false; // isReturned set to false by default
+        list = initList;
+        missionComp = false;
     }
 
-    public boolean isCompleted() // returns true if all items in ShoppingList are bought
+    // only provides name
+    public ShoppingCart(String initName)
     {
-        for(int i = 0; i < list.getSize(); i++) // loops through ShoppingList
+        name = initName;
+        list = new ShoppingList();
+        missionComp = false;
+    }
+
+    //if no list initiated,  use this constructor
+    public ShoppingCart()
+    {
+        list = new ShoppingList();
+        missionComp = false;
+    }
+
+    //METHODS ========
+    
+    public boolean isCompleted()
+    {
+        //counts how many items in Shopping list that are sold
+        int count = 0;
+        for (int i = 0; i<list.getSize(); i++)
         {
-            if(list.getAt(i).isSold() == false) // checks if any item is not sold (gets the object at list position i and checks if it's sold using ShoppingItem's method)
+            //gets the item at index i and checks if the item is sold
+            if (list.getAt(i).isSold() == true)
             {
-                return false; // returns false if any item is not sold
+                count++;
             }
         }
-        complete = true; // sets complete to true if all items are sold
-        return true; // returns true if all items are sold
-    }
-
-    public void returnCart() // method to return cart
-    {
-        if(isCompleted() && isReturned == false) // checks if cart is complete and has not been returned yet
+        //if size of the list and number of items sold match, must be all completed
+        if (list.getSize() == count)
         {
-            ShoppingCart.returned++; // adds 1 to total carts returned
-            isReturned = true; // sets returned variable to true
+            return true;
+        } else {
+            return false;
         }
     }
 
-    public static int getTotalCartsReturned() // static method to get total carts returned (called with class name)
+    public void returnCart()
     {
-        return ShoppingCart.returned; // returns total carts returned
+        //checks if everything is bought
+        if (isCompleted() && missionComp == false) 
+        {
+            missionComp = true;
+            //completes mission AND adds to total returned carts
+            numShopCarts++;
+        }
     }
 
-    public String getName() // method to get customer name
+    // Getters ============
+    public String getName()
     {
-        return name; // returns customer name
+        return name;
     }
-
+    public boolean getCompleted()
+    {
+        return missionComp;
+    }
+    public static int getTotalCartsReturned()
+    {
+        return numShopCarts;
+    }
 }
